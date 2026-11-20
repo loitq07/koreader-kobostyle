@@ -1,0 +1,5 @@
+# Add these lines to your NickelMenu config file (e.g. .adds/nm/dashboard)
+
+menu_item :main :E-Ink Dashboard :cmd_spawn :quiet :exec /bin/sh /mnt/onboard/.adds/kobo-dashboard/start_dashboard.sh
+menu_item :main :Xem Log Dashboard :cmd_output :2000 :exec /bin/sh /mnt/onboard/.adds/kobo-dashboard/show_log.sh
+menu_item :main :Tat Dashboard :cmd_spawn :quiet :exec /bin/sh /mnt/onboard/.adds/kobo-dashboard/stop_dashboard.sh

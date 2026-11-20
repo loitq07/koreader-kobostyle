@@ -1,0 +1,38 @@
+{
+  "displayName": "Antigravity Dreamhunters",
+  "status": "ready",
+  "usageLimits": {
+    "checkedAt": "2026-11-20T16:07:54.314Z",
+    "windows": [
+      {
+        "id": "3p-5h",
+        "label": "Claude & GPT (shared) \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 0,
+        "windowDurationMins": 300
+      },
+      {
+        "id": "gemini-5h",
+        "label": "Gemini \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 0,
+        "windowDurationMins": 300
+      },
+      {
+        "id": "3p-weekly",
+        "label": "Claude & GPT (shared) \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 0,
+        "windowDurationMins": 10080
+      },
+      {
+        "id": "gemini-weekly",
+        "label": "Gemini \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 0,
+        "windowDurationMins": 10080
+      }
+    ],
+    "credentialFingerprint": "67215aa1c6c2c7d114ea9e720fedfd381387a5148e79c848ad52f94ee6cdc4de"
+  }
+}

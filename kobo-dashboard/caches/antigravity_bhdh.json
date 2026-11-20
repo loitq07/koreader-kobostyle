@@ -1,0 +1,40 @@
+{
+  "displayName": "Antigravity BHDH",
+  "status": "ready",
+  "usageLimits": {
+    "checkedAt": "2026-11-20T16:07:54.293Z",
+    "windows": [
+      {
+        "id": "3p-5h",
+        "label": "Claude & GPT (shared) \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 0,
+        "windowDurationMins": 300
+      },
+      {
+        "id": "gemini-5h",
+        "label": "Gemini \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 44.509209999999996,
+        "resetsAt": "2026-11-20T17:19:02.000Z",
+        "windowDurationMins": 300
+      },
+      {
+        "id": "3p-weekly",
+        "label": "Claude & GPT (shared) \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 0,
+        "windowDurationMins": 10080
+      },
+      {
+        "id": "gemini-weekly",
+        "label": "Gemini \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 20.46053,
+        "resetsAt": "2026-11-25T14:45:50.000Z",
+        "windowDurationMins": 10080
+      }
+    ],
+    "credentialFingerprint": "47cb469188c0d14db33e4f4753fa8a40ad2cf17a0afba4f351eafa72c383edf3"
+  }
+}

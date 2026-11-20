@@ -1,0 +1,49 @@
+name: Auto-Generate E-Ink Dashboard (Hanoi & T3 Quotas)
+
+on:
+  schedule:
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+  push:
+    branches: [ main ]
+    paths:
+      - 'kobo-dashboard/generate_dashboard.py'
+      - 'kobo-dashboard/fonts/**'
+      - 'kobo-dashboard/caches/**'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow
+
+      - name: Run Dashboard Generator
+        run: |
+          python kobo-dashboard/generate_dashboard.py
+
+      - name: Commit and Push Updated Dashboard
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add kobo-dashboard/*.png
+          if git diff --staged --quiet; then
+            echo "No changes in dashboard images."
+          else
+            git commit -m "chore: auto-update dashboard images [skip ci]"
+            git push
+          fi

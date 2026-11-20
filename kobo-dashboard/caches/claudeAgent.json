@@ -1,0 +1,38 @@
+{
+  "displayName": "Claude",
+  "status": "ready",
+  "usageLimits": {
+    "checkedAt": "2026-11-20T16:08:18.079Z",
+    "windows": [
+      {
+        "id": "five_hour",
+        "kind": "session",
+        "label": "Session",
+        "windowDurationMins": 300,
+        "usedPercent": 0
+      },
+      {
+        "id": "seven_day",
+        "kind": "weekly",
+        "label": "Weekly",
+        "windowDurationMins": 10080,
+        "usedPercent": 100,
+        "resetsAt": "2026-11-21T16:59:59.716Z"
+      }
+    ],
+    "resetCredits": {
+      "availableCount": 1,
+      "nextExpiresAt": "2026-12-10T22:00:00.000Z",
+      "nextCreditId": "full-reset-2611",
+      "options": [
+        {
+          "creditId": "full-reset-2611",
+          "label": "Full reset",
+          "description": "Refills your 5-hour and weekly limits.",
+          "availableCount": 1,
+          "expiresAt": "2026-12-10T22:00:00.000Z"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "displayName": "Antigravity loi.tranquang",
+  "status": "ready",
+  "usageLimits": {
+    "checkedAt": "2026-11-20T16:07:54.247Z",
+    "windows": [
+      {
+        "id": "3p-5h",
+        "label": "Claude & GPT (shared) \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 0,
+        "windowDurationMins": 300
+      },
+      {
+        "id": "gemini-5h",
+        "label": "Gemini \u00b7 5-hour",
+        "kind": "session",
+        "usedPercent": 2.79914,
+        "resetsAt": "2026-11-20T19:44:24.000Z",
+        "windowDurationMins": 300
+      },
+      {
+        "id": "3p-weekly",
+        "label": "Claude & GPT (shared) \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 0,
+        "windowDurationMins": 10080
+      },
+      {
+        "id": "gemini-weekly",
+        "label": "Gemini \u00b7 Weekly",
+        "kind": "weekly",
+        "usedPercent": 4.671186000000005,
+        "resetsAt": "2026-11-25T15:18:59.000Z",
+        "windowDurationMins": 10080
+      }
+    ],
+    "credentialFingerprint": "7690d8276ab34e090e08749cbbd70b62f0d99e46de53889a544bc9f9c045b520"
+  }
+}
