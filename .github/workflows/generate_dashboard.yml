@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -45,5 +47,6 @@ jobs:
             echo "No changes in dashboard images."
           else
             git commit -m "chore: auto-update dashboard images [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
