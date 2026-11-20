@@ -59,11 +59,7 @@ $FBINK_BIN -q -c -f -g file="$LOCAL_IMG"
 res=$?
 echo "[+] FBInk render status code: $res"
 
-# 2. BƯỚC 2: Tạm dừng Nickel để ngăn việc chạm màn hình làm mất ảnh
-echo "[*] Tam dung Nickel (STOP) de giu co dinh anh dashboard..."
-killall -STOP nickel 2>/dev/null
-
-# 3. BƯỚC 3: Xác định thiết bị cảm ứng Touchscreen
+# 2. BƯỚC 2: Xác định thiết bị cảm ứng Touchscreen
 TOUCH_DEV="/dev/input/event1"
 if [ -f /proc/bus/input/devices ]; then
     t_ev=$(awk '
@@ -78,7 +74,7 @@ if [ -f /proc/bus/input/devices ]; then
 fi
 echo "[+] Touch input device: $TOUCH_DEV"
 
-# 4. BƯỚC 4: Lắng nghe nút Nguồn (Power button) ngầm để thoát nhanh nếu cần
+# 3. BƯỚC 3: Lắng nghe nút Nguồn (Power button) ngầm để thoát nhanh nếu cần
 POWER_PID=""
 if [ -e /dev/input/event0 ]; then
     (
@@ -90,7 +86,7 @@ if [ -e /dev/input/event0 ]; then
     echo "[+] Power button listener started (PID: $POWER_PID)"
 fi
 
-# 5. BƯỚC 5: Tự động cập nhật qua Wi-Fi ngầm (nếu có cấu hình DASHBOARD_URL)
+# 4. BƯỚC 4: Tự động cập nhật qua Wi-Fi ngầm (nếu có cấu hình DASHBOARD_URL)
 REFRESH_PID=""
 if [ -n "$DASHBOARD_URL" ] && ! echo "$DASHBOARD_URL" | grep -q "username/repository"; then
     echo "[+] Bat dau tien trinh Auto-Refresh ngam (Chu ky: ${INTERVAL_SECONDS}s)"
@@ -133,8 +129,11 @@ if [ -n "$DASHBOARD_URL" ] && ! echo "$DASHBOARD_URL" | grep -q "username/reposi
     REFRESH_PID=$!
 fi
 
-# 6. BƯỚC 6: Vòng lặp giám sát cảm ứng (CHỈ THOÁT KHI CHẠM NÚT THOÁT)
-echo "[+] Dang cho cham nut Thoat (Y >= 930) hoac bam nut Nguon de tro ve Home..."
+# 5. BƯỚC 5: Vòng lặp giám sát cảm ứng (CHỈ THOÁT KHI CHẠM NÚT THOÁT)
+# KHÔNG dừng Nickel (để tránh watchdog sickel/hindenburg khởi động lại máy).
+# Nếu người dùng chạm vào nội dung phía trên, tự động vẽ lại Dashboard để ảnh không bị mất.
+# Nếu chạm vào nút Thoát ở đáy (Y >= 930), thoát vòng lặp và trả lại giao diện Kobo Home.
+echo "[+] Dang giu Dashboard tren man hinh. Cho cham nut Thoat (Y >= 930)..."
 
 while [ ! -f "$STOP_FLAG" ]; do
     # Chặn đọc cảm ứng (0% CPU, kernel sleep cho den khi co thao tac cham)
@@ -146,8 +145,6 @@ while [ ! -f "$STOP_FLAG" ]; do
     fi
 
     # Kiem tra toa do Y cua nut Thoat:
-    # O Portrait: Nut Thoat o day man hinh (Y >= 930)
-    # Cac vung khac (dong ho, thoi tiet, quota, suy ngam) deu < 930 -> KHONG THOAT
     hit=""
     if [ "$ORIENTATION" = "landscape" ]; then
         hit=$(echo "$out" | awk '
@@ -164,12 +161,16 @@ while [ ! -f "$STOP_FLAG" ]; do
     fi
 
     if [ "$hit" = "EXIT" ]; then
-        echo "[+] Da cham vao nut Thoat! Dang khoi phuc giao dien Kobo Home..."
+        echo "[+] Da cham vao nut Thoat! Dang tro ve Kobo Home..."
         break
+    else
+        # Chạm vào phần nội dung phía trên: phục hồi lại ảnh nếu Nickel có vẽ đè
+        sleep 0.2
+        $FBINK_BIN -q -g file="$LOCAL_IMG" 2>/dev/null
     fi
 done
 
-# 7. BƯỚC 7: Dọn dẹp và khôi phục Nickel
+# 6. BƯỚC 6: Dọn dẹp và trả lại màn hình cho Kobo Home
 if [ -n "$REFRESH_PID" ]; then
     kill "$REFRESH_PID" 2>/dev/null
 fi
@@ -179,13 +180,9 @@ fi
 rm -f "$STOP_FLAG"
 /sbin/ifconfig wlan0 down 2>/dev/null
 
-# Thông báo nhẹ trên e-ink
-$FBINK_BIN -q -m -y -2 "Dang tro ve Kobo Home..." 2>/dev/null
-
-# Đánh thức Nickel trở lại
-echo "[+] Khoi phuc Nickel (CONT)..."
-killall -CONT nickel 2>/dev/null
-sleep 1
+# Clear màn hình để giao diện Kobo Home hiển thị sắc nét
+echo "[+] Lam sach man hinh de ve Home..."
+$FBINK_BIN -q -c 2>/dev/null
 
 echo "=== Dashboard Stopped: $(date) ==="
 exit 0
